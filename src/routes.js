@@ -25,15 +25,18 @@ routes.use(authMiddleware); // Todas as rotas que estiverem abaixo vão receber 
 routes.post("/categories", upload.single("file"), CategoryController.store); // Rota para criar nova categoria
 routes.get("/categories", CategoryController.index);
 routes.put("/categories/:id", upload.single("file"), CategoryController.update); // Rota para editar categoria
+routes.delete('/categories/:id', CategoryController.delete) // deletar produtos por ID
 
 //cria-se produtos antes de realizar pedidos(orders)
 routes.post("/products", upload.single("file"), ProductController.store); // Cria novo produto
 routes.get("/products", ProductController.index); // Mostra todos os produtos
 routes.put("/products/:id", upload.single("file"), ProductController.update); // Rota de para editar de produto
+routes.delete('/products/:id', ProductController.delete) // deletar produtos por ID
 
 routes.post('/orders', OrderController.store) // Cria novo pedido
 routes.put('/orders/:id', OrderController.update) // Atualiza o status do pedido
 routes.get('/orders', OrderController.index) // Mostra todos os pedidos
+
 
 
 

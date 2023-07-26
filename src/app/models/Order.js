@@ -16,6 +16,10 @@ class Order extends Model {
           type: Sequelize.TEXT,
           allowNull: false,
         },
+        description: {
+          type: Sequelize.TEXT,
+          allowNull: false,
+        },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,

@@ -30,11 +30,10 @@ class CategoryController {
             const { name } = request.body;
 
             //essa parte do codigo foi alterado. esse e o codigo original e estara comentado para testes
-            const { filename: path } = request.file
+            const { filename: path } = request.file;
 
             //esse e o cidigo alterado para o teste no insominia, nao e o codigo original.
             //const { filename: path } = request.file || {};
-
 
             // Validando categoria repetida
             const categoryExists = await Category.findOne({
@@ -110,6 +109,42 @@ class CategoryController {
             return response.status(200).json();
         } catch (err) {
             console.log(err);
+        }
+    }
+
+    async delete(request, response) {
+        try {
+            // Verificando se o usuário é um administrador
+            const { admin: isAdmin } = await User.findByPk(request.userId);
+
+            if (!isAdmin) {
+                return response
+                    .status(401)
+                    .json({
+                        error: "Apenas administradores podem excluir categorias.",
+                    });
+            }
+
+            const { id } = request.params;
+
+            // Verificando se a categoria existe
+            const category = await Category.findByPk(id);
+
+            if (!category) {
+                return response
+                    .status(404)
+                    .json({ error: "Categoria não encontrada." });
+            }
+
+            // Excluindo a categoria
+            await category.destroy();
+
+            return response.status(204).send();
+        } catch (error) {
+            console.error(error);
+            return response
+                .status(500)
+                .json({ error: "Falha ao excluir a categoria." });
         }
     }
 }

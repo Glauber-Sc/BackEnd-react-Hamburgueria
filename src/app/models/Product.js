@@ -1,5 +1,3 @@
-/* Model para adicionar produto */
-
 import Sequelize, { Model } from 'sequelize'
 
 class Product extends Model {
@@ -10,9 +8,8 @@ class Product extends Model {
                 price: Sequelize.STRING,
                 path: Sequelize.STRING,
                 offer: Sequelize.BOOLEAN,
+                description: Sequelize.STRING, // Adicione o campo description aqui
                 url: {
-                    // Este campo não existe no banco de dados
-                    // Gerando uma url quando o usuario solicita informações do produto
                     type: Sequelize.VIRTUAL,
                     get() {
                         return `http://localhost:3000/product-file/${this.path}`
@@ -26,16 +23,12 @@ class Product extends Model {
         return this
     }
 
-    // Criando relacionamento entre tabelas
-
     static associate(models) {
         this.belongsTo(models.Category, {
             foreignKey: 'category_id',
             as: 'category'
-        }) // category_id, esse campo é uma chave extrangeira, pois está fazendo referência a um campo da tabela de categorias.
-    }
-
-    
+        })
+    }    
 }
 
 export default Product
